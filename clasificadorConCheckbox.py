@@ -62,7 +62,7 @@ def seleccionar_directorio():
         mostrar_checkboxes_categorias()
 
 # Crear un botón para seleccionar/cambiar el directorio
-boton_seleccionar = tk.Button(root, text='Seleccionar Directorio', command=seleccionar_directorio)
+boton_seleccionar = tk.Button(root, text='Seleccionar Directorio', command=seleccionar_directorio,bg='yellow', fg='black', width=20, height=2)
 boton_seleccionar.pack(side=tk.TOP)
 
 # Crear una etiqueta para mostrar el directorio seleccionado
@@ -153,7 +153,7 @@ def clasificar_archivos():
     clasificar_archivos_en_directorio()
 
 # Crear un botón para clasificar los archivos
-boton_clasificar = tk.Button(root, text='Clasificar', command=clasificar_archivos)
+boton_clasificar = tk.Button(root, text='Clasificar', command=clasificar_archivos,bg='blue', fg='white', width=15, height=3)
 boton_clasificar.pack(side=tk.TOP)
 
 # Ejecutar el bucle principal de la ventana
