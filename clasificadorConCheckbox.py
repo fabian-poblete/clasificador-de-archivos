@@ -16,7 +16,7 @@ if os.path.exists(icon_path):
 # Función para centrar la ventana en la pantalla
 def centrar_ventana():
     ancho_ventana = 500
-    alto_ventana = 300
+    alto_ventana = 500
     ancho_pantalla = root.winfo_screenwidth()
     alto_pantalla = root.winfo_screenheight()
     x = (ancho_pantalla - ancho_ventana) // 2
@@ -93,11 +93,15 @@ def mostrar_checkboxes_categorias():
         checkbox.pack_forget()
     checkboxes.clear()
 
+    # Calcular el número de categorías por columna
+    num_categorias = len(categorias)
+    categorias_por_columna = (num_categorias + 1) // 2  # Redondeo hacia arriba
+
     # Crear los checkboxes de las categorías
-    for categoria in categorias:
+    for i, (categoria, extensiones) in enumerate(categorias.items()):
         var = tk.BooleanVar()
         checkbox = tk.Checkbutton(frame_categorias, text=categoria, variable=var, onvalue=True, offvalue=False)
-        checkbox.pack(anchor='w')
+        checkbox.grid(row=i % categorias_por_columna, column=i // categorias_por_columna, sticky="w")
         checkboxes.append((checkbox, var))
 
 # Crear un frame para los checkboxes de categorías
@@ -151,3 +155,4 @@ boton_clasificar.pack(side=tk.TOP)
 
 # Ejecutar el bucle principal de la ventana
 root.mainloop()
+
