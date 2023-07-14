@@ -3,10 +3,17 @@ import time
 import tkinter as tk
 from tkinter import filedialog
 from threading import Thread
+import tkinter.font as tkfont
 
 # Crear la ventana principal
 root = tk.Tk()
 root.title("Clasificador de Archivos")
+
+# Establecer la fuente personalizada para toda la aplicación
+fuente_personalizada = tkfont.Font(family='Arial', size=12,weight='bold')
+
+# Configurar la fuente para la ventana principal
+root.option_add("*Font", fuente_personalizada)
 
 # Establecer el ícono de la ventana
 icon_path = "C:/Users/usuario/Desktop/Clasificador de archivos/icono.ico"  # Reemplaza con la ruta de tu archivo de ícono
