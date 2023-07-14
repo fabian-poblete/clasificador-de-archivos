@@ -13,6 +13,19 @@ icon_path = "C:/Users/usuario/Desktop/Clasificador de archivos/icono.ico"  # Rep
 if os.path.exists(icon_path):
     root.iconbitmap(icon_path)
 
+# Function to center the window on the screen
+def center_window():
+    window_width = 500
+    window_height = 300
+    screen_width = root.winfo_screenwidth()
+    screen_height = root.winfo_screenheight()
+    x = (screen_width - window_width) // 2
+    y = (screen_height - window_height) // 2
+    root.geometry(f"{window_width}x{window_height}+{x}+{y}")
+
+# Center the window on the screen
+center_window()
+
 # Global variable to store the selected directory
 directory = None
 
@@ -67,7 +80,12 @@ def classify_file(filename):
         if extension in extensions:
             # Construct the file paths
             source_path = os.path.join(directory, filename)
-            dest_path = os.path.join(directory, category, filename)
+            dest_dir = os.path.join(directory, category)
+            dest_path = os.path.join(dest_dir, filename)
+
+            # Create the destination directory if it doesn't exist
+            if not os.path.exists(dest_dir):
+                os.makedirs(dest_dir)
 
             # Move the file
             os.rename(source_path, dest_path)
@@ -88,7 +106,7 @@ def monitor_directory():
 
     while True:
         # List of files in the directory after a short sleep
-        time.sleep(5)
+        time.sleep(1)
         current_files = os.listdir(directory)
 
         # Find the new files
@@ -110,6 +128,7 @@ categories = {
     'Words': ['docx'],
     'Executable': ['exe'],
     'Direct access': ['lnk'],
+    'Gifs': ['gif'],
 }
 
 # Run the main window event loop
