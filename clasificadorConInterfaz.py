@@ -6,27 +6,43 @@ from threading import Thread
 
 # Create the main window
 root = tk.Tk()
+root.title("File Classifier")
+
+
+
+# Global variable to store the selected directory
+directory = None
 
 # Function to handle the button click event
 def select_directory():
+    global directory
     # Open a file dialog to select the directory
     selected_directory = filedialog.askdirectory()
     if selected_directory:
-        # Update the directory variable
-        global directory
-        directory = selected_directory
-        # Disable the select button after a directory is selected
-        select_button.config(state=tk.DISABLED)
-        # Show the selected directory in the text widget
-        output_text.insert(tk.END, f'Selected directory: {directory}\n')
+        if directory is None:
+            # First time selecting the directory
+            # Update the directory variable
+            directory = selected_directory
+            # Show the selected directory in the text widget
+            output_text.insert(tk.END, f'Selected directory: {directory}\n')
+            # Disable the select button and enable the change button
+            select_button.config(text='Change Directory')
+        else:
+            # Changing the directory
+            # Clear the text widget
+            output_text.delete(1.0, tk.END)
+            # Update the directory variable
+            directory = selected_directory
+            # Show the selected directory in the text widget
+            output_text.insert(tk.END, f'Changed directory: {directory}\n')
         # Classify all existing files in the directory
         classify_files_in_directory()
         # Start monitoring the directory for changes in a separate thread
         thread = Thread(target=monitor_directory)
         thread.start()
 
-# Create a button to select the directory
-select_button = tk.Button(root, text='Select Directory', command=select_directory)
+# Create a button to select/change the directory
+select_button = tk.Button(root, text='Seleccionar carpeta', command=select_directory)
 select_button.pack()
 
 # Create a text widget to display the output
@@ -53,6 +69,8 @@ def classify_file(filename):
 
 # Function to classify all existing files in the directory
 def classify_files_in_directory():
+    # Clear the text widget
+    output_text.delete(1.0, tk.END)
     for filename in os.listdir(directory):
         classify_file(filename)
 
