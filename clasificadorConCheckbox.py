@@ -63,15 +63,11 @@ def seleccionar_directorio():
 
 # Crear un botón para seleccionar/cambiar el directorio
 boton_seleccionar = tk.Button(root, text='Seleccionar Directorio', command=seleccionar_directorio)
-boton_seleccionar.pack()
+boton_seleccionar.pack(side=tk.TOP)
 
 # Crear una etiqueta para mostrar el directorio seleccionado
 etiqueta_directorio = tk.Label(root, text="Directorio seleccionado: Ninguno")
-etiqueta_directorio.pack()
-
-# Crear un widget de texto para mostrar la salida
-texto_salida = tk.Text(root, height=10, width=50)
-texto_salida.pack()
+etiqueta_directorio.pack(side=tk.TOP)
 
 # Diccionario de categorías de archivos y sus extensiones
 categorias = {
@@ -92,9 +88,10 @@ checkboxes = []
 def mostrar_checkboxes_categorias():
     global checkboxes
 
-    # Crear un frame para los checkboxes
-    frame_categorias = tk.Frame(root)
-    frame_categorias.pack()
+    # Limpiar el frame de categorías antes de volver a mostrar los checkboxes
+    for checkbox, var in checkboxes:
+        checkbox.pack_forget()
+    checkboxes.clear()
 
     # Crear los checkboxes de las categorías
     for categoria in categorias:
@@ -102,6 +99,14 @@ def mostrar_checkboxes_categorias():
         checkbox = tk.Checkbutton(frame_categorias, text=categoria, variable=var, onvalue=True, offvalue=False)
         checkbox.pack(anchor='w')
         checkboxes.append((checkbox, var))
+
+# Crear un frame para los checkboxes de categorías
+frame_categorias = tk.Frame(root)
+frame_categorias.pack(side=tk.TOP)
+
+# Crear un widget de texto para mostrar la salida
+texto_salida = tk.Text(root, height=10, width=50)
+texto_salida.pack(side=tk.TOP)
 
 # Función para clasificar un archivo en la categoría correspondiente
 def clasificar_archivo(nombre_archivo):
@@ -142,7 +147,7 @@ def clasificar_archivos():
 
 # Crear un botón para clasificar los archivos
 boton_clasificar = tk.Button(root, text='Clasificar', command=clasificar_archivos)
-boton_clasificar.pack()
+boton_clasificar.pack(side=tk.TOP)
 
 # Ejecutar el bucle principal de la ventana
 root.mainloop()
