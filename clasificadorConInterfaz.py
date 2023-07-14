@@ -4,132 +4,132 @@ import tkinter as tk
 from tkinter import filedialog
 from threading import Thread
 
-# Create the main window
+# Crear la ventana principal
 root = tk.Tk()
-root.title("File Classifier")
+root.title("Clasificador de Archivos")
 
-# Set the window icon
-icon_path = "C:/Users/usuario/Desktop/Clasificador de archivos/icono.ico"  # Replace with the path to your icon file
+# Establecer el ícono de la ventana
+icon_path = "C:/Users/usuario/Desktop/Clasificador de archivos/icono.ico"  # Reemplaza con la ruta de tu archivo de ícono
 if os.path.exists(icon_path):
     root.iconbitmap(icon_path)
 
-# Function to center the window on the screen
-def center_window():
-    window_width = 500
-    window_height = 300
-    screen_width = root.winfo_screenwidth()
-    screen_height = root.winfo_screenheight()
-    x = (screen_width - window_width) // 2
-    y = (screen_height - window_height) // 2
-    root.geometry(f"{window_width}x{window_height}+{x}+{y}")
+# Función para centrar la ventana en la pantalla
+def centrar_ventana():
+    ancho_ventana = 500
+    alto_ventana = 300
+    ancho_pantalla = root.winfo_screenwidth()
+    alto_pantalla = root.winfo_screenheight()
+    x = (ancho_pantalla - ancho_ventana) // 2
+    y = (alto_pantalla - alto_ventana) // 2
+    root.geometry(f"{ancho_ventana}x{alto_ventana}+{x}+{y}")
 
-# Center the window on the screen
-center_window()
+# Centrar la ventana en la pantalla
+centrar_ventana()
 
-# Global variable to store the selected directory
-directory = None
+# Variable global para almacenar el directorio seleccionado
+directorio = None
 
-# Function to handle the button click event
-def select_directory():
-    global directory
-    # Open a file dialog to select the directory
-    selected_directory = filedialog.askdirectory()
-    if selected_directory:
-        if directory is None:
-            # First time selecting the directory
-            # Update the directory variable
-            directory = selected_directory
-            # Show the selected directory in the text widget
-            directory_label.config(text=f"Selected directory: {directory}")
-            # Disable the select button and enable the change button
-            select_button.config(text='Change Directory')
+# Función para manejar el evento de clic del botón
+def seleccionar_directorio():
+    global directorio
+    # Abrir un cuadro de diálogo para seleccionar el directorio
+    directorio_seleccionado = filedialog.askdirectory()
+    if directorio_seleccionado:
+        if directorio is None:
+            # Primera vez seleccionando el directorio
+            # Actualizar la variable de directorio
+            directorio = directorio_seleccionado
+            # Mostrar el directorio seleccionado en el widget de texto
+            etiqueta_directorio.config(text=f"Directorio seleccionado: {directorio}")
+            # Deshabilitar el botón de selección y habilitar el botón de cambio
+            boton_seleccionar.config(text='Cambiar Directorio')
         else:
-            # Changing the directory
-            # Clear the text widget
-            output_text.delete(1.0, tk.END)
-            # Update the directory variable
-            directory = selected_directory
-            # Show the selected directory in the text widget
-            directory_label.config(text=f"Selected directory: {directory}")
-        # Classify all existing files in the directory
-        classify_files_in_directory()
-        # Start monitoring the directory for changes in a separate thread
-        thread = Thread(target=monitor_directory)
-        thread.start()
+            # Cambiando el directorio
+            # Limpiar el widget de texto
+            texto_salida.delete(1.0, tk.END)
+            # Actualizar la variable de directorio
+            directorio = directorio_seleccionado
+            # Mostrar el directorio seleccionado en el widget de texto
+            etiqueta_directorio.config(text=f"Directorio seleccionado: {directorio}")
+        # Clasificar todos los archivos existentes en el directorio
+        clasificar_archivos_en_directorio()
+        # Comenzar a monitorear el directorio en un hilo separado
+        hilo = Thread(target=monitorear_directorio)
+        hilo.start()
 
-# Create a button to select/change the directory
-select_button = tk.Button(root, text='Select Directory', command=select_directory)
-select_button.pack()
+# Crear un botón para seleccionar/cambiar el directorio
+boton_seleccionar = tk.Button(root, text='Seleccionar Directorio', command=seleccionar_directorio)
+boton_seleccionar.pack()
 
-# Create a label to display the selected directory
-directory_label = tk.Label(root, text="Selected directory: None")
-directory_label.pack()
+# Crear una etiqueta para mostrar el directorio seleccionado
+etiqueta_directorio = tk.Label(root, text="Directorio seleccionado: Ninguno")
+etiqueta_directorio.pack()
 
-# Create a text widget to display the output
-output_text = tk.Text(root, height=10, width=50)
-output_text.pack()
+# Crear un widget de texto para mostrar la salida
+texto_salida = tk.Text(root, height=10, width=50)
+texto_salida.pack()
 
-# Function to classify a file
-def classify_file(filename):
-    # Find the file extension
-    extension = filename.split('.')[-1]
+# Función para clasificar un archivo
+def clasificar_archivo(nombre_archivo):
+    # Encontrar la extensión del archivo
+    extension = nombre_archivo.split('.')[-1]
 
-    # Iterate over the categories
-    for category, extensions in categories.items():
-        # If the extension matches one of the extensions in the category, move the file
-        if extension in extensions:
-            # Construct the file paths
-            source_path = os.path.join(directory, filename)
-            dest_dir = os.path.join(directory, category)
-            dest_path = os.path.join(dest_dir, filename)
+    # Iterar sobre las categorías
+    for categoria, extensiones in categorias.items():
+        # Si la extensión coincide con alguna de las extensiones de la categoría, mover el archivo
+        if extension in extensiones:
+            # Construir las rutas de archivo
+            ruta_origen = os.path.join(directorio, nombre_archivo)
+            ruta_destino_directorio = os.path.join(directorio, categoria)
+            ruta_destino = os.path.join(ruta_destino_directorio, nombre_archivo)
 
-            # Create the destination directory if it doesn't exist
-            if not os.path.exists(dest_dir):
-                os.makedirs(dest_dir)
+            # Crear el directorio de destino si no existe
+            if not os.path.exists(ruta_destino_directorio):
+                os.makedirs(ruta_destino_directorio)
 
-            # Move the file
-            os.rename(source_path, dest_path)
-            output_text.insert(tk.END, f'Moved {filename} to {category}\n')
+            # Mover el archivo
+            os.rename(ruta_origen, ruta_destino)
+            texto_salida.insert(tk.END, f'Se movió {nombre_archivo} a {categoria}\n')
             break
 
-# Function to classify all existing files in the directory
-def classify_files_in_directory():
-    # Clear the text widget
-    output_text.delete(1.0, tk.END)
-    for filename in os.listdir(directory):
-        classify_file(filename)
+# Función para clasificar todos los archivos existentes en el directorio
+def clasificar_archivos_en_directorio():
+    # Limpiar el widget de texto
+    texto_salida.delete(1.0, tk.END)
+    for nombre_archivo in os.listdir(directorio):
+        clasificar_archivo(nombre_archivo)
 
-# Function to monitor the directory for changes
-def monitor_directory():
-    # Initial list of files in the directory
-    initial_files = os.listdir(directory)
+# Función para monitorear el directorio en busca de cambios
+def monitorear_directorio():
+    # Lista inicial de archivos en el directorio
+    archivos_iniciales = os.listdir(directorio)
 
     while True:
-        # List of files in the directory after a short sleep
+        # Lista de archivos en el directorio después de una pausa corta
         time.sleep(1)
-        current_files = os.listdir(directory)
+        archivos_actuales = os.listdir(directorio)
 
-        # Find the new files
-        new_files = list(set(current_files) - set(initial_files))
+        # Encontrar los archivos nuevos
+        archivos_nuevos = list(set(archivos_actuales) - set(archivos_iniciales))
 
-        # Classify the new files
-        for filename in new_files:
-            classify_file(filename)
+        # Clasificar los archivos nuevos
+        for nombre_archivo in archivos_nuevos:
+            clasificar_archivo(nombre_archivo)
 
-        # Update the initial list of files
-        initial_files = current_files
+        # Actualizar la lista inicial de archivos
+        archivos_iniciales = archivos_actuales
 
-# Dictionary of file categories and their extensions
-categories = {
-    'Images': ['jpeg', 'jpg', 'png', 'jfif'],
+# Diccionario de categorías de archivos y sus extensiones
+categorias = {
+    'Imágenes': ['jpeg', 'jpg', 'png', 'jfif'],
     'PDFs': ['pdf'],
-    'Datasets': ['csv', 'xlsx', 'json'],
+    'Conjuntos de datos': ['csv', 'xlsx', 'json'],
     'Videos': ['mp4'],
-    'Words': ['docx'],
-    'Executable': ['exe'],
-    'Direct access': ['lnk'],
+    'Documentos de Word': ['docx'],
+    'Ejecutables': ['exe'],
+    'Acceso directo': ['lnk'],
     'Gifs': ['gif'],
 }
 
-# Run the main window event loop
+# Ejecutar el bucle principal de la ventana
 root.mainloop()
