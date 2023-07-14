@@ -108,6 +108,9 @@ def mostrar_checkboxes_categorias():
 frame_categorias = tk.Frame(root)
 frame_categorias.pack(side=tk.TOP)
 
+# Mostrar los checkboxes de las categorías
+mostrar_checkboxes_categorias()
+
 # Crear un widget de texto para mostrar la salida
 texto_salida = tk.Text(root, height=10, width=50)
 texto_salida.pack(side=tk.TOP)
@@ -155,4 +158,3 @@ boton_clasificar.pack(side=tk.TOP)
 
 # Ejecutar el bucle principal de la ventana
 root.mainloop()
-
