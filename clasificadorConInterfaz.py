@@ -8,7 +8,10 @@ from threading import Thread
 root = tk.Tk()
 root.title("File Classifier")
 
-
+# Set the window icon
+icon_path = "path/to/your/icon.ico"  # Replace with the path to your icon file
+if os.path.exists(icon_path):
+    root.iconbitmap(icon_path)
 
 # Global variable to store the selected directory
 directory = None
@@ -24,7 +27,7 @@ def select_directory():
             # Update the directory variable
             directory = selected_directory
             # Show the selected directory in the text widget
-            output_text.insert(tk.END, f'Selected directory: {directory}\n')
+            directory_label.config(text=f"Selected directory: {directory}")
             # Disable the select button and enable the change button
             select_button.config(text='Change Directory')
         else:
@@ -34,7 +37,7 @@ def select_directory():
             # Update the directory variable
             directory = selected_directory
             # Show the selected directory in the text widget
-            output_text.insert(tk.END, f'Changed directory: {directory}\n')
+            directory_label.config(text=f"Selected directory: {directory}")
         # Classify all existing files in the directory
         classify_files_in_directory()
         # Start monitoring the directory for changes in a separate thread
@@ -42,8 +45,12 @@ def select_directory():
         thread.start()
 
 # Create a button to select/change the directory
-select_button = tk.Button(root, text='Seleccionar carpeta', command=select_directory)
+select_button = tk.Button(root, text='Select Directory', command=select_directory)
 select_button.pack()
+
+# Create a label to display the selected directory
+directory_label = tk.Label(root, text="Selected directory: None")
+directory_label.pack()
 
 # Create a text widget to display the output
 output_text = tk.Text(root, height=10, width=50)
