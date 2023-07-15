@@ -4,6 +4,8 @@ import tkinter as tk
 from tkinter import filedialog
 from threading import Thread
 import tkinter.font as tkfont
+from tkinter import messagebox
+
 
 # Crear la ventana principal
 root = tk.Tk()
@@ -123,7 +125,7 @@ texto_salida = tk.Text(root, height=10, width=50)
 texto_salida.pack(side=tk.TOP)
 
 # Función para clasificar un archivo en la categoría correspondiente
-def clasificar_archivo(nombre_archivo):
+def clasificar_archivo(nombre_archivo, archivos_en_uso):
     # Encontrar la extensión del archivo
     extension = nombre_archivo.split('.')[-1]
 
@@ -144,16 +146,24 @@ def clasificar_archivo(nombre_archivo):
                     os.makedirs(ruta_destino_directorio)
 
                 # Mover el archivo
-                os.rename(ruta_origen, ruta_destino)
-                texto_salida.insert(tk.END, f'Se movió {nombre_archivo} a {categoria}\n')
-                break
+                try:
+                    os.rename(ruta_origen, ruta_destino)
+                    texto_salida.insert(tk.END, f'Se movió {nombre_archivo} a {categoria}\n')
+                except PermissionError:
+                    archivos_en_uso.append(nombre_archivo)
 
 # Función para clasificar todos los archivos existentes en el directorio
 def clasificar_archivos_en_directorio():
     # Limpiar el widget de texto
     texto_salida.delete(1.0, tk.END)
+    archivos_en_uso = []
     for nombre_archivo in os.listdir(directorio):
-        clasificar_archivo(nombre_archivo)
+        clasificar_archivo(nombre_archivo, archivos_en_uso)
+    
+    if archivos_en_uso:
+        mensaje = "No se pueden mover los siguientes archivos porque están en uso:\n- "
+        mensaje += "\n- ".join(archivos_en_uso)
+        messagebox.showerror("Error", mensaje)
 
 # Función para realizar la clasificación de archivos al presionar el botón "Clasificar"
 def clasificar_archivos():
