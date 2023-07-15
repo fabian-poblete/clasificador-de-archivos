@@ -163,5 +163,12 @@ def clasificar_archivos():
 boton_clasificar = tk.Button(root, text='Clasificar', command=clasificar_archivos,bg='blue', fg='white', width=15, height=3)
 boton_clasificar.pack(side=tk.TOP)
 
+etiqueta_derechos_autor = tk.Label(root, text="© 2023 Fabián Poblete. Todos los derechos reservados.")
+etiqueta_derechos_autor.pack(side=tk.BOTTOM)
+
+
 # Ejecutar el bucle principal de la ventana
 root.mainloop()
+
+
+# Por Fabián Poblete - 2023
