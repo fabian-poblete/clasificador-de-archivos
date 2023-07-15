@@ -123,7 +123,7 @@ mostrar_checkboxes_categorias()
 # Crear un widget de texto para mostrar la salida
 texto_salida = tk.Text(root, height=10, width=50)
 texto_salida.pack(side=tk.TOP)
-
+texto_salida.tag_config("green", foreground="green")
 # Función para clasificar un archivo en la categoría correspondiente
 def clasificar_archivo(nombre_archivo, archivos_en_uso):
     # Encontrar la extensión del archivo
@@ -148,7 +148,7 @@ def clasificar_archivo(nombre_archivo, archivos_en_uso):
                 # Mover el archivo
                 try:
                     os.rename(ruta_origen, ruta_destino)
-                    texto_salida.insert(tk.END, f'Se movió {nombre_archivo} a {categoria}\n')
+                    texto_salida.insert(tk.END, f'Se movió {nombre_archivo} a {categoria}\n',"green")
                 except PermissionError:
                     archivos_en_uso.append(nombre_archivo)
 
