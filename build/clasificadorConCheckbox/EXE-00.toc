@@ -1,10 +1,10 @@
 ('C:\\Users\\usuario\\Desktop\\Proyectos\\Clasificador de '
  'archivos\\build\\clasificadorConCheckbox\\clasificadorConCheckbox.exe',
- True,
+ False,
  False,
  True,
  'C:\\Users\\usuario\\Desktop\\Proyectos\\Clasificador de '
- 'archivos\\clasificadorArchivos\\Lib\\site-packages\\PyInstaller\\bootloader\\images\\icon-console.ico',
+ 'archivos\\clasificadorArchivos\\Lib\\site-packages\\PyInstaller\\bootloader\\images\\icon-windowed.ico',
  None,
  False,
  False,
@@ -60,8 +60,8 @@
  [],
  False,
  False,
- 1689453110,
- [('run.exe',
+ 1689453399,
+ [('runw.exe',
    'C:\\Users\\usuario\\Desktop\\Proyectos\\Clasificador de '
-   'archivos\\clasificadorArchivos\\Lib\\site-packages\\PyInstaller\\bootloader\\Windows-64bit-intel\\run.exe',
+   'archivos\\clasificadorArchivos\\Lib\\site-packages\\PyInstaller\\bootloader\\Windows-64bit-intel\\runw.exe',
    'EXECUTABLE')])
