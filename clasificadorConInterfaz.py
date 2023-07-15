@@ -9,7 +9,7 @@ root = tk.Tk()
 root.title("Clasificador de Archivos")
 
 # Establecer el ícono de la ventana
-icon_path = "C:/Users/usuario/Desktop/Clasificador de archivos/icono.ico"  # Reemplaza con la ruta de tu archivo de ícono
+icon_path = "C:/Users/usuario/Desktop/Proyectos/Clasificador de archivos/icono.ico"  # Reemplaza con la ruta de tu archivo de ícono
 if os.path.exists(icon_path):
     root.iconbitmap(icon_path)
 
