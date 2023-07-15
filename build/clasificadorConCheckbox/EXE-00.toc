@@ -60,7 +60,7 @@
  [],
  False,
  False,
- 1689453399,
+ 1689454753,
  [('runw.exe',
    'C:\\Users\\usuario\\Desktop\\Proyectos\\Clasificador de '
    'archivos\\clasificadorArchivos\\Lib\\site-packages\\PyInstaller\\bootloader\\Windows-64bit-intel\\runw.exe',
